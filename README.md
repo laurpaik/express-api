@@ -256,7 +256,7 @@ If a different user than the owner tries to make the change, you should instead
 see:
 
 ```sh
-HTTP/1.1 200 OK
+HTTP/1.1 404 Not Found
 X-Powered-By: Express
 Content-Type: application/json; charset=utf-8
 
@@ -289,7 +289,7 @@ If a different user than the owner tries to make the change, you should instead
 see:
 
 ```sh
-HTTP/1.1 200 OK
+HTTP/1.1 404 Not Found
 X-Powered-By: Express
 Content-Type: application/json; charset=utf-8
 
