@@ -1,12 +1,12 @@
 {
-  "name": "express-api",
+  "name": "express-api-template",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "start": "./bin/express server"
   },
   "engines": {
-    "node": "4.4.0"
+    "node": "4.5.0"
   },
   "dependencies": {
     "bcrypt": "^0.8.5",
