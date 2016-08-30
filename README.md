@@ -97,12 +97,11 @@ handlers. You will use `res.json` and `res.sendStatus` most frequently.
 | `res.redirect()`     | Redirect a request.                                                                   |
 | `res.sendStatus()`   | Set the response status code and send its string representation as the response body. |
 
-## Lab: Summarize Actions in Examples Controller
+## Annotate Along: Summarize Actions in Examples Controller
 
-Practice reading unfamiliar code by annotating
-[`app/controllers/examples.js`](app/controllers/examples.js). As you read each
-controller action, keep the following questions in mind. You will be asked to
-answer them when we share our notes.
+Let's practice reading unfamiliar code by annotating
+[`app/controllers/examples.js`](app/controllers/examples.js). As we read each
+controller action, keep the following questions in mind. 
 
 -   What is the purpose of this action?
 -   Does it need a singular or plural resource to build its response?
