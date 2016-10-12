@@ -9,7 +9,7 @@ of Node.
 Express can be used for full-stack applications (those that have server-rendered
 views). However, we will use it purely as an API.
 
-A customized template for Express is available at [ga-wdi-boston/express-template](https://github.com/ga-wdi-boston/express-template).
+A customized template for Express is available at [ga-wdi-boston/express-api-template](https://github.com/ga-wdi-boston/express-api-template).
 It includes authentication and common middlewares so that you can start
 developing an API right away.
 
@@ -34,13 +34,13 @@ By the end of this, developers should be able to:
 1.  Install dependencies with `npm install`.
 1.  Verify monogdb is runnning with `brew services list`
     (Run `brew services restart mongodb` if not)
-1.  Set a SECRET_KEY in the environment.
-1.  Run the API server with `npm start`. If you want your code to be reloaded on
-    change, you should `npm install -g nodemon` and use `nodemon` instead of
-    `npm start`.
+1.  Set a SECRET_KEY in the environment. See below for command to set a SECRET_KEY
+1.  Install Nodemon by `npm install -g nodemon`. Nodemon will reload the
+apppllication on a change to any file in the application. To start the express
+server, use `nodemon`. A secondary way, **BUT NOT PREFERRED**, is `npm start`.
 
 For development and testing, set the SECRET_KEY from the root of your
- repository using:
+repository using:
 
 ```sh
 echo SECRET_KEY=$(/usr/local/opt/openssl/bin/openssl rand -base64 66 | tr -d '\n') >>.env
@@ -101,7 +101,7 @@ handlers. You will use `res.json` and `res.sendStatus` most frequently.
 
 Let's practice reading unfamiliar code by annotating
 [`app/controllers/examples.js`](app/controllers/examples.js). As we read each
-controller action, keep the following questions in mind. 
+controller action, keep the following questions in mind.
 
 -   What is the purpose of this action?
 -   Does it need a singular or plural resource to build its response?
@@ -309,5 +309,6 @@ Content-Type: application/json; charset=utf-8
 
 ## [License](LICENSE)
 
-Source code distributed under the MIT license. Text and other assets copyright
-General Assembly, Inc., all rights reserved.
+1.  All content is licensed under a CC­BY­NC­SA 4.0 license.
+1.  All software code is licensed under GNU GPLv3. For commercial use or
+alternative licensing, please contact legal@ga.co.
