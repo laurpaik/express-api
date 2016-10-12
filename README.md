@@ -9,7 +9,7 @@ of Node.
 Express can be used for full-stack applications (those that have server-rendered
 views). However, we will use it purely as an API.
 
-A customized template for Express is available at [ga-wdi-boston/express-template](https://github.com/ga-wdi-boston/express-template).
+A customized template for Express is available at [ga-wdi-boston/express-api-template](https://github.com/ga-wdi-boston/express-api-template).
 It includes authentication and common middlewares so that you can start
 developing an API right away.
 
