@@ -101,7 +101,7 @@ handlers. You will use `res.json` and `res.sendStatus` most frequently.
 
 Let's practice reading unfamiliar code by annotating
 [`app/controllers/examples.js`](app/controllers/examples.js). As we read each
-controller action, keep the following questions in mind. 
+controller action, keep the following questions in mind.
 
 -   What is the purpose of this action?
 -   Does it need a singular or plural resource to build its response?
@@ -309,5 +309,6 @@ Content-Type: application/json; charset=utf-8
 
 ## [License](LICENSE)
 
-Source code distributed under the MIT license. Text and other assets copyright
-General Assembly, Inc., all rights reserved.
+1.  All content is licensed under a CC­BY­NC­SA 4.0 license.
+1.  All software code is licensed under GNU GPLv3. For commercial use or
+alternative licensing, please contact legal@ga.co.
