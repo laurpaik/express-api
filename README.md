@@ -68,7 +68,7 @@ first taste of Express. What's the `(req, res, next)` signature on all our
 controller actions?
 
 The `req` object is a
-[http.IncomingMessage](https://nodejs.org/api/http.html#http_http_incomingmessage)
+[http.IncomingMessage](https://nodejs.org/api/http.html#http_class_http_incomingmessage)
 object. The `res` object is
 [http.ServerResponse](https://nodejs.org/api/http.html#http_class_http_serverresponse)
 object. These are what we used in the node HTTP server. What about `next`?
