@@ -305,7 +305,7 @@ Content-Type: application/json; charset=utf-8
 ## Additional Resources
 
 -   [Express - Node.js web application framework](http://expressjs.com/)
--   [ga-wdi-boston/express-template: Railsified express server](https://github.com/ga-wdi-boston/express-template)
+-   [ga-wdi-boston/express-api-template: Railsified express server](https://github.com/ga-wdi-boston/express-api-template)
 
 ## [License](LICENSE)
 
