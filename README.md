@@ -92,7 +92,6 @@ handlers. You will use `res.json` and `res.sendStatus` most frequently.
 
 | Response method      | What it means                                                                         |
 |:---------------------|:--------------------------------------------------------------------------------------|
-| `res.end()`          | End the response process.                                                             |
 | `res.json(jsObject)` | Send a JSON response.                                                                 |
 | `res.redirect()`     | Redirect a request.                                                                   |
 | `res.sendStatus()`   | Set the response status code and send its string representation as the response body. |
