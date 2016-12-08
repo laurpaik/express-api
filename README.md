@@ -78,7 +78,7 @@ object. These are what we used in the node HTTP server. What about `next`?
 >
 > – [Express routing](http://expressjs.com/en/guide/routing.html)
 
-That means **more than one action** can be run for a single request. In fact,
+That means that there can be **more than one step** when processing a single request. In fact,
 that's how Express keeps boilerplate to a minimum; we did something similar with
 `before_filter`s in Rails. Common functionality, like error handling, can be
 extracted into a middleware and run on any request you like. However, you
