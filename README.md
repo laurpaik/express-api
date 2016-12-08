@@ -35,16 +35,16 @@ By the end of this, developers should be able to:
 1.  Verify monogdb is runnning with `brew services list`
     (Run `brew services restart mongodb` if not)
 1.  Set a SECRET_KEY in the environment. See below for command to set a SECRET_KEY
+2. For development and testing, set the SECRET_KEY from the root of your
+repository using:
+    ```sh
+    echo SECRET_KEY=$(/usr/local/opt/openssl/bin/openssl rand -base64 66 | tr -d '\n') >>.env
+    ```
+    Linux:
+    `echo SECRET_KEY=$(/usr/bin/openssl rand -base64 66 | tr -d '\n') >>.env`
 1.  Install Nodemon by `npm install -g nodemon`. Nodemon will reload the
 apppllication on a change to any file in the application. To start the express
 server, use `nodemon`. A secondary way, **BUT NOT PREFERRED**, is `npm start`.
-
-For development and testing, set the SECRET_KEY from the root of your
-repository using:
-
-```sh
-echo SECRET_KEY=$(/usr/local/opt/openssl/bin/openssl rand -base64 66 | tr -d '\n') >>.env
-```
 
 ## A Bookstore API
 
