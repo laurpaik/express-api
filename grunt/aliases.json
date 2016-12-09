@@ -1,6 +1,9 @@
 {
-  "default": ["nag"],
+  "default": ["nag", "test"],
   "nag": ["jshint", "jsonlint:all", "jscs:status"],
   "reformat": ["jscs:write"],
-  "test": ["jasmine_nodejs:test"]
+  "test": ["mochacli:all"],
+  "server": ["shell:server"],
+  "serve": ["server"],
+  "s": ["server"]
 }

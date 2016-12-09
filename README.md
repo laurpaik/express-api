@@ -35,16 +35,16 @@ By the end of this, developers should be able to:
 1.  Verify monogdb is runnning with `brew services list`
     (Run `brew services restart mongodb` if not)
 1.  Set a SECRET_KEY in the environment. See below for command to set a SECRET_KEY
+2. For development and testing, set the SECRET_KEY from the root of your
+repository using:
+    ```sh
+    echo SECRET_KEY=$(/usr/local/opt/openssl/bin/openssl rand -base64 66 | tr -d '\n') >>.env
+    ```
+    Linux:
+    `echo SECRET_KEY=$(/usr/bin/openssl rand -base64 66 | tr -d '\n') >>.env`
 1.  Install Nodemon by `npm install -g nodemon`. Nodemon will reload the
 apppllication on a change to any file in the application. To start the express
 server, use `nodemon`. A secondary way, **BUT NOT PREFERRED**, is `npm start`.
-
-For development and testing, set the SECRET_KEY from the root of your
-repository using:
-
-```sh
-echo SECRET_KEY=$(/usr/local/opt/openssl/bin/openssl rand -base64 66 | tr -d '\n') >>.env
-```
 
 ## A Bookstore API
 
@@ -68,7 +68,7 @@ first taste of Express. What's the `(req, res, next)` signature on all our
 controller actions?
 
 The `req` object is a
-[http.IncomingMessage](https://nodejs.org/api/http.html#http_http_incomingmessage)
+[http.IncomingMessage](https://nodejs.org/api/http.html#http_class_http_incomingmessage)
 object. The `res` object is
 [http.ServerResponse](https://nodejs.org/api/http.html#http_class_http_serverresponse)
 object. These are what we used in the node HTTP server. What about `next`?
@@ -78,7 +78,7 @@ object. These are what we used in the node HTTP server. What about `next`?
 >
 > – [Express routing](http://expressjs.com/en/guide/routing.html)
 
-That means **more than one action** can be run for a single request. In fact,
+That means that there can be **more than one step** when processing a single request. In fact,
 that's how Express keeps boilerplate to a minimum; we did something similar with
 `before_filter`s in Rails. Common functionality, like error handling, can be
 extracted into a middleware and run on any request you like. However, you
@@ -92,7 +92,6 @@ handlers. You will use `res.json` and `res.sendStatus` most frequently.
 
 | Response method      | What it means                                                                         |
 |:---------------------|:--------------------------------------------------------------------------------------|
-| `res.end()`          | End the response process.                                                             |
 | `res.json(jsObject)` | Send a JSON response.                                                                 |
 | `res.redirect()`     | Redirect a request.                                                                   |
 | `res.sendStatus()`   | Set the response status code and send its string representation as the response body. |
@@ -305,7 +304,7 @@ Content-Type: application/json; charset=utf-8
 ## Additional Resources
 
 -   [Express - Node.js web application framework](http://expressjs.com/)
--   [ga-wdi-boston/express-template: Railsified express server](https://github.com/ga-wdi-boston/express-template)
+-   [ga-wdi-boston/express-api-template: Railsified express server](https://github.com/ga-wdi-boston/express-api-template)
 
 ## [License](LICENSE)
 

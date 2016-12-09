@@ -23,7 +23,7 @@ app.use(middleware['404']);
 // error handlers
 app.use(middleware['error-handler']);
 
-const debug = require('debug')('express-template:server');
+const debug = require('debug')('express-api:server');
 const http = require('http');
 
 /**
@@ -32,6 +32,7 @@ const http = require('http');
 
 const normalizePort = (val) => {
   let port = parseInt(val, 10);
+  debug('Normalied port is', port);
   return port >= 0 ? port : isNaN(port) ? val : false;
 };
 
@@ -39,7 +40,11 @@ const normalizePort = (val) => {
  * Get port from environment and store in Express.
  */
 
-const port = normalizePort(process.env.PORT || '3000');
+let devPort = +('GA'.split('').reduce((p, c) =>
+ p + c.charCodeAt().toString(16), '')
+);
+
+const port = normalizePort(process.env.PORT || devPort);
 app.set('port', port);
 
 /**
@@ -83,13 +88,17 @@ const onError = (error) => {
 const onListening = () =>  {
   const addr = server.address();
   const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
-  debug('Listening on ' + bind);
+  console.log('Server listening on ' + bind);
 };
 
 /**
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
+server.listen(port);
+
+module.exports = {
+  server,
+};

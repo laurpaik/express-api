@@ -2,7 +2,8 @@
   "src": {
     "all": [
       "lib/**/*.js",
-      "spec/**/*.spec.js"
+      "spec/**/*.spec.js",
+      "server.js"
     ],
     "spec": [
       "spec/**"
