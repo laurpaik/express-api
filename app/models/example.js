@@ -7,6 +7,7 @@ const exampleSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  // use an underscore when referencing another document
   _owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
