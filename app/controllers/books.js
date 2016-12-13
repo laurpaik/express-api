@@ -2,6 +2,7 @@
 
 const controller = require('lib/wiring/controller');
 const models = require('app/models');
+const RecordNotFound = require('lib/wiring/errors/record-not-found');
 const Book = models.book;
 const User = models.user;
 
@@ -56,16 +57,11 @@ const update = (req, res, next) => {
       // checks if there's an book
       if (!book) {
         // if there's not an book, call next
-        return next();
+        throw new RecordNotFound();
       }
       delete req.body._owner;  // disallow owner reassignment.
-      return book.update(req.body.book);
-    })
-    .then((updated) => {
-      if(!updated) {
-        return next();
-      }
-      res.sendStatus(200);
+      return book.update(req.body.book)
+        .then(() => res.sendStatus(200))
     })
     // if find or update fails we send it to the error handler
     .catch(err => next(err));
@@ -85,14 +81,9 @@ const destroy = (req, res, next) => {
         return next();
       }
       // removes the book from the database (destroys it)
-      return book.remove();
-    })
-    // if removing the book object was successful, return 200 http response
-    .then((destroyed) => {
-      if(!destroyed) {
-        return next();
-      }
-      res.sendStatus(200);
+      return book.remove()
+        // if removing the book object was successful, return 200 http response
+       .then(res.sendStatus(200))
     })
     // handles any errors
     .catch(err => next(err));
