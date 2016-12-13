@@ -3,13 +3,14 @@
 const controller = require('lib/wiring/controller');
 const models = require('app/models');
 const Book = models.book;
+const User = models.user;
 
 const authenticate = require('./concerns/authenticate');
 
 const index = (req, res, next) => {
   // Access the database, find all the books
   Book.find()
-  .populate('_owner', 'email')
+    .populate('_owner', 'email')
     // render the response from the database as json
     .then(books => res.json({ books }))
     // if there's an error, it is caught and sent to error handling middleware
@@ -33,7 +34,15 @@ const create = (req, res, next) => {
   });
   Book.create(book)
     // the newly created book we get from the database is rendered as JSON
-    .then(newBook => res.json({ book: newBook }))
+    .then(newBook => {
+      // find the user, and add the book to their collection
+      User.findOne(req.currentUser._id)
+        .then((user) => {
+          user._books.addToSet(newBook._id);
+          return user.save();
+        })
+        .then(() => res.json({ book: newBook }));
+    })
     // if theres an error, send to the error handler
     .catch(err => next(err));
 };
@@ -83,7 +92,7 @@ const destroy = (req, res, next) => {
       if(!destroyed) {
         return next();
       }
-      res.sendStatus(200)
+      res.sendStatus(200);
     })
     // handles any errors
     .catch(err => next(err));

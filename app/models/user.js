@@ -14,6 +14,9 @@ const userSchema = new mongoose.Schema({
     type: String,
     require: true,
   },
+  _books: {
+    type:[{type: mongoose.Schema.Types.ObjectId, ref: 'Book'}],
+  },
   passwordDigest: String,
 }, {
   timestamps: true,
