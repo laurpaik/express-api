@@ -98,11 +98,11 @@ handlers. You will use `res.json` and `res.sendStatus` most frequently.
 | `res.redirect()`     | Redirect a request.                                                                   |
 | `res.sendStatus()`   | Set the response status code and send its string representation as the response body. |
 
-## Annotate Along: Summarize Actions in Examples Controller
+## Annotate Along: Index Action
 
 Let's practice reading unfamiliar code by annotating
-[`app/controllers/examples.js`](app/controllers/examples.js). As we read each
-controller action, keep the following questions in mind.
+[`app/controllers/examples.js`](app/controllers/examples.js). As we read the
+index controller action, keep the following questions in mind.
 
 -   What is the purpose of this action?
 -   Does it need a singular or plural resource to build its response?
@@ -163,7 +163,17 @@ Content-Type: application/json; charset=utf-8
 }
 ```
 
-## Lab: `GET /books/:id`
+## Lab: Create an Example
+
+Start the server and try creating an example by issuing a `POST /examples`. What
+happens? You might find some help in the [`scripts`](scripts) directory.
+
+When you've created an example, try using its ID to request it via `GET
+/examples/:id`. Then, create another and check your work with `GET /examples`.
+
+## Annotate-Along: `GET /examples/:id`
+
+## Code-Along: `GET /books/:id`
 
 Visitors to the client web application should be able to see any book without
 being logged in.
@@ -190,6 +200,8 @@ Content-Type: application/json; charset=utf-8
   }
 }
 ```
+
+## Annotate-Along: `DELETE /examples/:id`
 
 ## Lab: `DELETE /books/:id`
 
@@ -224,13 +236,7 @@ Content-Type: application/json; charset=utf-8
 }
 ```
 
-## Lab: Create an Example
-
-Start the server and try creating an example by issuing a `POST /examples`. What
-happens? You might find some help in the [`scripts`](scripts) directory.
-
-When you've created an example, try using its ID to request it via `GET
-/examples/:id`. Then, create another and check your work with `GET /examples`.
+## Annotate-Along: `PATCH /examples/:id`
 
 ## Code-Along: `PATCH /books/:id`
 
@@ -266,6 +272,8 @@ Content-Type: application/json; charset=utf-8
   }
 }
 ```
+
+## Annotate-Along: `POST /examples`
 
 ## Lab: `POST /books`
 
