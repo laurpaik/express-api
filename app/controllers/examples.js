@@ -8,7 +8,14 @@ const authenticate = require('./concerns/authenticate');
 const setUser = require('./concerns/set-current-user');
 const setModel = require('./concerns/set-mongoose-model');
 
+// index is a function that takes three parameters
+// request, response, and next
+// request and response are objects that represent http
+// request and response
+// next is a function that sends the request/response to the next function in the chain
+// if it is passed an object, it goes to the error handler
 const index = (req, res, next) => {
+  // Access the database, find all the examples
   Example.find()
     .then(examples => res.json({
       examples: examples.map((e) =>
@@ -24,9 +31,12 @@ const show = (req, res) => {
 };
 
 const create = (req, res, next) => {
+  // adds a key, _owner to req.body.example, and sets that to req.currentUser.id
   let example = Object.assign(req.body.example, {
     _owner: req.user._id,
   });
+  // executes the create method on the example model with the example object
+  // that we just created with the data from the client and the current user as _owner
   Example.create(example)
     .then(example =>
       res.status(201)
