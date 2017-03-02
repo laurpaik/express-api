@@ -55,6 +55,6 @@ describe('loading express', function () {
       .set('Accept', 'application/json')
       .send(data)
       .expect('Content-Type', /json/)
-      .expect(200, done);
+      .expect(201, done);
   });
 });

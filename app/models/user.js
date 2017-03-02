@@ -12,11 +12,23 @@ const userSchema = new mongoose.Schema({
   },
   token: {
     type: String,
-    require: true,
+    required: true,
   },
   passwordDigest: String,
 }, {
   timestamps: true,
+  toJSON: {
+    virtuals: true,
+    transform: function (doc, pojoUser) {
+      // remove sensitive data from every user document
+      delete pojoUser.token;
+      delete pojoUser.passwordDigest;
+      return pojoUser;
+    },
+  },
+  toObject: {
+    virtuals: true,
+  },
 });
 
 userSchema.plugin(uniqueValidator);
