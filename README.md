@@ -123,6 +123,17 @@ following questions together:
 -   Where should we go to find out more about an owner?
 -   Why aren't we using an arrow function for the virtual attribute `length`?
 
+## CURL Gotchas
+
+We'll be using a lot of curl requests as we test our API, so it's important to
+remember some of the common pitfalls in writing and running curl requests.
+
+1.  Unlike JavaScript objects, trailing commas are **not** valid in a curl
+    request.
+1.  We use constants in our curl requests, which are in `CAPITAL_LETTERS`.
+    Your curl request will not work correctly if you don't assign values to
+    those constants. (i.e. `TITLE='Ancillary Justice'`)
+
 ## Code-Along: `GET /books`
 
 Visitors to the client web application should be able to see all the books
