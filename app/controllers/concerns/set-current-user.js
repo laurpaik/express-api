@@ -10,12 +10,7 @@ const decodeToken = (signedSecureToken) => {
   return mv.verify(signedSecureToken);
 };
 
-const accessDenied = (res) => {
-  res.set('WWW-Authenticate', 'Token realm="Application"');
-  res.status(401).send('HTTP Token: Access denied.\n');
-};
-
-const authenticate = (req, res, next) => {
+const setUser = function (req, res, next) {
   const tokenRegex = /^Token token=/;
   const separatorRegex = /\s*(?::|;|\t+)\s*/;
   let auth = req.headers.authorization;
@@ -24,18 +19,14 @@ const authenticate = (req, res, next) => {
     let signedToken = opts.shift();
     let token = decodeToken(signedToken);
     User.findOne({ token })
-    .then(user => {
-      if (user) {
+      .then(user => {
         req.user = user;
-        return next();
-      }
-
-      return accessDenied(res);
-    })
-    .catch(err => next(err));
+        next();
+      })
+      .catch(err => next(err));
   } else {
-    return accessDenied(res);
+    next();
   }
 };
 
-module.exports = authenticate;
+module.exports = setUser;

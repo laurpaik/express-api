@@ -9,8 +9,10 @@ const cors = require('cors');
 
 const loader = require('lib/wiring/loader');
 
+const corsPort = +('GA'.split('').reduce((p, c)=> p + c.charCodeAt(), ''));
+
 const corsOptions = {
-  origin: process.env.CLIENT_ORIGIN || 'http://localhost:8080',
+  origin: process.env.CLIENT_ORIGIN || `http://localhost:${corsPort}`,
 };
 
 const before = (app) => {

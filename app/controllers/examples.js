@@ -5,55 +5,48 @@ const models = require('app/models');
 const Example = models.example;
 
 const authenticate = require('./concerns/authenticate');
+const setUser = require('./concerns/set-current-user');
+const setModel = require('./concerns/set-mongoose-model');
 
 const index = (req, res, next) => {
   Example.find()
-    .then(examples => res.json({ examples }))
-    .catch(err => next(err));
+    .then(examples => res.json({
+      examples: examples.map((e) =>
+        e.toJSON({ virtuals: true, user: req.user })),
+    }))
+    .catch(next);
 };
 
-const show = (req, res, next) => {
-  Example.findById(req.params.id)
-    .then(example => example ? res.json({ example }) : next())
-    .catch(err => next(err));
+const show = (req, res) => {
+  res.json({
+    example: req.example.toJSON({ virtuals: true, user: req.user }),
+  });
 };
 
 const create = (req, res, next) => {
   let example = Object.assign(req.body.example, {
-    _owner: req.currentUser._id,
+    _owner: req.user._id,
   });
   Example.create(example)
-    .then(example => res.json({ example }))
-    .catch(err => next(err));
+    .then(example =>
+      res.status(201)
+        .json({
+          example: example.toJSON({ virtuals: true, user: req.user }),
+        }))
+    .catch(next);
 };
 
 const update = (req, res, next) => {
-  let search = { _id: req.params.id, _owner: req.currentUser._id };
-  Example.findOne(search)
-    .then(example => {
-      if (!example) {
-        return next();
-      }
-
-      delete req.body._owner;  // disallow owner reassignment.
-      return example.update(req.body.example)
-        .then(() => res.sendStatus(200));
-    })
-    .catch(err => next(err));
+  delete req.body._owner;  // disallow owner reassignment.
+  req.example.update(req.body.example)
+    .then(() => res.sendStatus(204))
+    .catch(next);
 };
 
 const destroy = (req, res, next) => {
-  let search = { _id: req.params.id, _owner: req.currentUser._id };
-  Example.findOne(search)
-    .then(example => {
-      if (!example) {
-        return next();
-      }
-
-      return example.remove()
-        .then(() => res.sendStatus(200));
-    })
-    .catch(err => next(err));
+  req.example.remove()
+    .then(() => res.sendStatus(204))
+    .catch(next);
 };
 
 module.exports = controller({
@@ -63,5 +56,8 @@ module.exports = controller({
   update,
   destroy,
 }, { before: [
+  { method: setUser, only: ['index', 'show'] },
   { method: authenticate, except: ['index', 'show'] },
+  { method: setModel(Example), only: ['show'] },
+  { method: setModel(Example, { forUser: true }), only: ['update', 'destroy'] },
 ], });

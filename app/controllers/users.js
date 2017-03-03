@@ -10,7 +10,7 @@ const crypto = require('crypto');
 
 const authenticate = require('./concerns/authenticate');
 
-const HttpError = require('lib/wiring/http-error');
+const HttpError = require('lib/wiring/errors/http-error');
 
 const MessageVerifier = require('lib/wiring/message-verifier');
 
@@ -26,18 +26,16 @@ const getToken = () =>
     )
   );
 
-const userFilter = { passwordDigest: 0, token: 0 };
-
 const index = (req, res, next) => {
-  User.find({}, userFilter)
+  User.find({})
     .then(users => res.json({ users }))
-    .catch(err => next(err));
+    .catch(next);
 };
 
 const show = (req, res, next) => {
-  User.findById(req.params.id, userFilter)
+  User.findById(req.params.id)
     .then(user => user ? res.json({ user }) : next())
-    .catch(err => next(err));
+    .catch(next);
 };
 
 const makeErrorHandler = (res, next) =>
@@ -49,49 +47,46 @@ const makeErrorHandler = (res, next) =>
 const signup = (req, res, next) => {
   let credentials = req.body.credentials;
   let user = { email: credentials.email, password: credentials.password };
-  getToken().then(token =>
-    user.token = token
-  ).then(() =>
-    new User(user).save()
-  ).then(newUser => {
-    let user = newUser.toObject();
-    delete user.token;
-    delete user.passwordDigest;
-    res.json({ user });
-  }).catch(makeErrorHandler(res, next));
-
+  getToken()
+    .then(token => user.token = token)
+    .then(() =>
+      new User(user).save())
+    .then(user =>
+      res.status(201).json({ user }))
+    .catch(makeErrorHandler(res, next));
 };
 
 const signin = (req, res, next) => {
   let credentials = req.body.credentials;
   let search = { email: credentials.email };
-  User.findOne(search
-  ).then(user =>
-    user ? user.comparePassword(credentials.password) :
-          Promise.reject(new HttpError(404))
-  ).then(user =>
-    getToken().then(token => {
-      user.token = token;
-      return user.save();
+  User.findOne(search)
+    .then(user =>
+      user ? user.comparePassword(credentials.password) :
+            Promise.reject(new HttpError(404)))
+    .then(user =>
+      getToken().then(token => {
+        user.token = token;
+        return user.save();
+      }))
+    .then(user => {
+      user = user.toObject();
+      delete user.passwordDigest;
+      user.token = encodeToken(user.token);
+      res.json({ user });
     })
-  ).then(user => {
-    user = user.toObject();
-    delete user.passwordDigest;
-    user.token = encodeToken(user.token);
-    res.json({ user });
-  }).catch(makeErrorHandler(res, next));
+    .catch(makeErrorHandler(res, next));
 };
 
 const signout = (req, res, next) => {
   getToken().then(token =>
     User.findOneAndUpdate({
       _id: req.params.id,
-      token: req.currentUser.token,
+      token: req.user.token,
     }, {
       token,
     })
   ).then((user) =>
-    user ? res.sendStatus(200) : next()
+    user ? res.sendStatus(204) : next()
   ).catch(next);
 };
 
@@ -99,7 +94,7 @@ const changepw = (req, res, next) => {
   debug('Changing password');
   User.findOne({
     _id: req.params.id,
-    token: req.currentUser.token,
+    token: req.user.token,
   }).then(user =>
     user ? user.comparePassword(req.body.passwords.old) :
       Promise.reject(new HttpError(404))
@@ -107,7 +102,7 @@ const changepw = (req, res, next) => {
     user.password = req.body.passwords.new;
     return user.save();
   }).then((/* user */) =>
-    res.sendStatus(200)
+    res.sendStatus(204)
   ).catch(makeErrorHandler(res, next));
 };
 

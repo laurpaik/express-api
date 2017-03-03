@@ -37,9 +37,11 @@ By the end of this, developers should be able to:
 1.  Set a SECRET_KEY in the environment. See below for command to set a SECRET_KEY
 2. For development and testing, set the SECRET_KEY from the root of your
 repository using:
+
     ```sh
-    echo SECRET_KEY=$(/usr/local/opt/openssl/bin/openssl rand -base64 66 | tr -d '\n') >>.env
+      echo SECRET_KEY=$(/usr/local/opt/openssl/bin/openssl rand -base64 66 | tr -d '\n') >>.env
     ```
+
     Linux:
     `echo SECRET_KEY=$(/usr/bin/openssl rand -base64 66 | tr -d '\n') >>.env`
 1.  Install Nodemon by `npm install -g nodemon`. Nodemon will reload the
@@ -96,11 +98,11 @@ handlers. You will use `res.json` and `res.sendStatus` most frequently.
 | `res.redirect()`     | Redirect a request.                                                                   |
 | `res.sendStatus()`   | Set the response status code and send its string representation as the response body. |
 
-## Annotate Along: Summarize Actions in Examples Controller
+## Annotate Along: Index Action
 
 Let's practice reading unfamiliar code by annotating
-[`app/controllers/examples.js`](app/controllers/examples.js). As we read each
-controller action, keep the following questions in mind.
+[`app/controllers/examples.js`](app/controllers/examples.js). As we read the
+index controller action, keep the following questions in mind.
 
 -   What is the purpose of this action?
 -   Does it need a singular or plural resource to build its response?
@@ -121,49 +123,16 @@ following questions together:
 -   Where should we go to find out more about an owner?
 -   Why aren't we using an arrow function for the virtual attribute `length`?
 
-## Lab: Create an Example
+## CURL Gotchas
 
-Start the server and try creating an example by issuing a `POST /examples`. What
-happens? You might find some help in the [`scripts`](scripts) directory.
+We'll be using a lot of curl requests as we test our API, so it's important to
+remember some of the common pitfalls in writing and running curl requests.
 
-When you've created an example, try using its ID to request it via `GET
-/examples/:id`. Then, create another and check your work with `GET /examples`.
-
-## Code-Along: `POST /books`
-
-Only authenticated users should be able to create a book.
-
-Let's create our book model together, and one controller action. Don't forget
-a route!
-
-Make sure to save a reference to the user that created the book so we can user
-it later to check ownership.
-
-We'll need to write a test script to check our work. We'll save it as
-[`scripts/books-create.sh`](scripts/books-create.sh).
-
-We're done when we see a response similar to this one:
-
-Expected response:
-
-```sh
-HTTP/1.1 200 OK
-X-Powered-By: Express
-Content-Type: application/json; charset=utf-8
-
-{
-  "book": {
-    "__v": 0,
-    "updatedAt": "2016-03-09T03:23:58.000Z",
-    "createdAt": "2016-03-09T03:23:58.000Z",
-    "_owner": "56df9716c19957cb0d836c4a",
-    "title": "Invisible Monsters",
-    "author": "Chuck Palahniuk",
-    "price": 10.99,
-    "_id": "56df974ec19957cb0d836c4d"
-  }
-}
-```
+1.  Unlike JavaScript objects, trailing commas are **not** valid in a curl
+    request.
+1.  We use constants in our curl requests, which are in `CAPITAL_LETTERS`.
+    Your curl request will not work correctly if you don't assign values to
+    those constants. (i.e. `TITLE='Ancillary Justice'`)
 
 ## Code-Along: `GET /books`
 
@@ -205,7 +174,23 @@ Content-Type: application/json; charset=utf-8
 }
 ```
 
-## Lab: `GET /books/:id`
+## Code-Along: Add Books to the database
+
+Run the load-books script using `node scripts/load-books.sh`. You'll notice a
+validation problem. We'll fix it by creating a user and adding their ID to
+our books.
+
+## Lab: Create an Example
+
+Start the server and try creating an example by issuing a `POST /examples`. What
+happens? You might find some help in the [`scripts`](scripts) directory.
+
+When you've created an example, try using its ID to request it via `GET
+/examples/:id`. Then, create another and check your work with `GET /examples`.
+
+## Annotate-Along: `GET /examples/:id`
+
+## Code-Along: `GET /books/:id`
 
 Visitors to the client web application should be able to see any book without
 being logged in.
@@ -233,40 +218,7 @@ Content-Type: application/json; charset=utf-8
 }
 ```
 
-## Lab: `PATCH /books/:id`
-
-Only authenticated users should be able to change a book. They should not be
-able to change other users' books.
-
-You will need to write a controller action and a test script.
-
-Expected response:
-
-```sh
-HTTP/1.1 200 OK
-X-Powered-By: Express
-Content-Type: application/json; charset=utf-8
-```
-
-You may wish to retrieve the book you changed to check your work.
-
-If a different user than the owner tries to make the change, you should instead
-see:
-
-```sh
-HTTP/1.1 404 Not Found
-X-Powered-By: Express
-Content-Type: application/json; charset=utf-8
-
-{
-  "error": {
-    "message": "Not Found",
-    "error": {
-      "status": 404
-    }
-  }
-}
-```
+## Annotate-Along: `DELETE /examples/:id`
 
 ## Lab: `DELETE /books/:id`
 
@@ -301,6 +253,81 @@ Content-Type: application/json; charset=utf-8
 }
 ```
 
+## Annotate-Along: `PATCH /examples/:id`
+
+## Code-Along: `PATCH /books/:id`
+
+Only authenticated users should be able to change a book. They should not be
+able to change other users' books.
+
+You will need to write a controller action and a test script.
+
+Expected response:
+
+```sh
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+```
+
+You may wish to retrieve the book you changed to check your work.
+
+If a different user than the owner tries to make the change, you should instead
+see:
+
+```sh
+HTTP/1.1 404 Not Found
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+
+{
+  "error": {
+    "message": "Not Found",
+    "error": {
+      "status": 404
+    }
+  }
+}
+```
+
+## Annotate-Along: `POST /examples`
+
+## Lab: `POST /books`
+
+Only authenticated users should be able to create a book.
+
+Let's create our book model together, and one controller action. Don't forget
+a route!
+
+Make sure to save a reference to the user that created the book so we can user
+it later to check ownership.
+
+We'll need to write a test script to check our work. We'll save it as
+[`scripts/books-create.sh`](scripts/books-create.sh).
+
+We're done when we see a response similar to this one:
+
+Expected response:
+
+```sh
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+
+{
+  "book": {
+    "__v": 0,
+    "updatedAt": "2016-03-09T03:23:58.000Z",
+    "createdAt": "2016-03-09T03:23:58.000Z",
+    "_owner": "56df9716c19957cb0d836c4a",
+    "title": "Invisible Monsters",
+    "author": "Chuck Palahniuk",
+    "price": 10.99,
+    "_id": "56df974ec19957cb0d836c4d"
+  }
+}
+```
+
 ## Additional Resources
 
 -   [Express - Node.js web application framework](http://expressjs.com/)
@@ -310,4 +337,4 @@ Content-Type: application/json; charset=utf-8
 
 1.  All content is licensed under a CC­BY­NC­SA 4.0 license.
 1.  All software code is licensed under GNU GPLv3. For commercial use or
-alternative licensing, please contact legal@ga.co.
+    alternative licensing, please contact legal@ga.co.

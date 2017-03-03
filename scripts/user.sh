@@ -1,4 +1,9 @@
 #!/bin/bash
 
-curl --include --request GET http://localhost:4741/users/$ID \
+API="http://localhost:4741"
+URL_PATH="/users"
+
+curl "${API}${URL_PATH}/${ID}" \
+  --include \
+  --request GET \
   --header "Authorization: Token token=$TOKEN"

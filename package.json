@@ -15,7 +15,7 @@
     "debug": "^2.3.3",
     "dotenv": "^2.0.0",
     "express": "^4.14.0",
-    "mongoose": "^4.7.0",
+    "mongoose": "^4.8.5",
     "mongoose-unique-validator": "^1.0.3",
     "morgan": "^1.7.0",
     "multer": "^1.2.0",
@@ -24,6 +24,7 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "chai-as-promised": "^6.0.0",
+    "csv": "^1.1.1",
     "grunt": "^1.0.1",
     "grunt-concurrent": "^2.3.1",
     "grunt-contrib-jshint": "^1.1.0",
