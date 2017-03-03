@@ -71,9 +71,17 @@ const update = (req, res, next) => {
     .catch(next);
 };
 
+// setModel will find an example (a mongoose object) for this user
+// and set it to the request object
 const destroy = (req, res, next) => {
+  // request the example we want to delete and remove it
+  // .remove() is a mongoose method that removes this object from
+  // the database
   req.example.remove()
+    // if remove was successful, return a 204 status
     .then(() => res.sendStatus(204))
+    // if remove fails, go to your middleware and let it handle the error
+    // next deals with that for you LOL
     .catch(next);
 };
 
