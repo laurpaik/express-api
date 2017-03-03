@@ -65,9 +65,17 @@ const create = (req, res, next) => {
 };
 
 const update = (req, res, next) => {
-  delete req.body._owner;  // disallow owner reassignment.
+  // delete the owner from the request body
+  delete req.body._owner;  // disallow owner reassignment LOL
+  // gets the example from the database and updates the body of the example
+  // (req.example is a mongoose object that setModel got from the database)
+  // .update is a mongoose method that updates the example with the properties
+  // from the body of the request
   req.example.update(req.body.example)
+    // if the update is successful, send a 204 Status to the client
     .then(() => res.sendStatus(204))
+    // otherwise, hit up that middleware w/ next
+    // send error to the client LOL
     .catch(next);
 };
 
