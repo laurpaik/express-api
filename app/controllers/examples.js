@@ -15,6 +15,10 @@ const setModel = require('./concerns/set-mongoose-model');
 // next will call our error handler
 // the index action goes and gets all of our resources and
 // sends that data to the user
+// next is a function that is passed to us based on middleware
+// if you don't have next and there's an error,
+// the request will just hang out in the controller and you'll be s t u c k
+// controller won't know to send a response back to the client
 const index = (req, res, next) => {
 
   // using the mongoose model... mongoose query to get all the examples
