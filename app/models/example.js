@@ -1,5 +1,8 @@
 'use strict';
 
+// we're using mongoose to define our schema
+// mongoose doesn't necessarily have anything to do with Express
+// you can use express without mongoose and vice versa LOL
 const mongoose = require('mongoose');
 
 const exampleSchema = new mongoose.Schema({
@@ -7,8 +10,14 @@ const exampleSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+
+  // `_` denotes that it's a reference to another mongoose schema
   _owner: {
+
+    // the type of this _owner property is a mongoose schema objectId
     type: mongoose.Schema.Types.ObjectId,
+
+    // the schema that _owner refers to is the User schema
     ref: 'User',
     required: true,
   },
