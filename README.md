@@ -174,13 +174,11 @@ Content-Type: application/json; charset=utf-8
 }
 ```
 
-## Lab: Add Books to the database
+## Code-Along: Add Books to the database
 
-Write a mongo script to add books to the database and run it. Check
-your work by making a GET request to `/books`.  It should be similar to the
-[script](https://github.com/ga-wdi-boston/mongodb-crud/blob/solution/scripts/import/people.sh)
-you used to add people in [mongodb](https://github.com/ga-wdi-boston/mongodb-crud).
-What do you need to change in the script? What should stay the same?
+Run the load-books script using `node scripts/load-books.sh`. You'll notice a
+validation problem. We'll fix it by creating a user and adding their ID to
+our books.
 
 ## Lab: Create an Example
 
