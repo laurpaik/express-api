@@ -3,11 +3,22 @@
 const mongoose = require('mongoose');
 
 const bookSchema = new mongoose.Schema({
-  text: {
+  title: {
     type: String,
     required: true,
   },
-
+  author: {
+    type: String,
+    required: true,
+  },
+  originalLanguage: {
+    type: String,
+    required: true,
+  },
+  firstPublished: {
+    type: Number,
+    required: true,
+  },
   _owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
@@ -23,10 +34,6 @@ const bookSchema = new mongoose.Schema({
       return ret;
     },
   },
-});
-
-bookSchema.virtual('length').get(function length() {
-  return this.text.length;
 });
 
 const Book = mongoose.model('Book', bookSchema);
