@@ -42,6 +42,10 @@ const index = (req, res, next) => {
 };
 
 const show = (req, res) => {
+  // takes the json request, returns a json response
+  // setMongooseModel finds the example and sets it to req.example
+  // and handles any errors
+  // sends a json response with the example and the user data
   res.json({
     example: req.example.toJSON({ virtuals: true, user: req.user }),
   });
