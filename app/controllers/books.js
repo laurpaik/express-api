@@ -22,6 +22,13 @@ const show = (req, res) => {
   });
 };
 
+const update = (req, res, next) => {
+  delete req.body._owner;  // disallow owner reassignment LOL
+  req.book.update(req.body.book)
+    .then(() => res.sendStatus(204))
+    .catch(next);
+};
+
 const destroy = (req, res, next) => {
   req.book.remove()
     .then(() => res.sendStatus(204))
@@ -31,6 +38,7 @@ const destroy = (req, res, next) => {
 module.exports = controller({
   index,
   show,
+  update,
   destroy,
 }, { before: [
   { method: setUser, only: ['index', 'show'] },
