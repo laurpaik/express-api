@@ -22,9 +22,16 @@ const show = (req, res) => {
   });
 };
 
+const destroy = (req, res, next) => {
+  req.book.remove()
+    .then(() => res.sendStatus(204))
+    .catch(next);
+};
+
 module.exports = controller({
   index,
   show,
+  destroy,
 }, { before: [
   { method: setUser, only: ['index', 'show'] },
   { method: authenticate, except: ['index', 'show'] },
