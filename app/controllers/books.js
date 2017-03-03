@@ -16,8 +16,15 @@ const index = (req, res, next) => {
     .catch(next);
 };
 
+const show = (req, res) => {
+  res.json({
+    book: req.book.toJSON({ virtuals: true, user: req.user }),
+  });
+};
+
 module.exports = controller({
   index,
+  show,
 }, { before: [
   { method: setUser, only: ['index', 'show'] },
   { method: authenticate, except: ['index', 'show'] },
