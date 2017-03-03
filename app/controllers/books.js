@@ -22,6 +22,19 @@ const show = (req, res) => {
   });
 };
 
+const create = (req, res, next) => {
+  let book = Object.assign(req.body.book, {
+    _owner: req.user._id,
+  });
+  Book.create(book)
+    .then(book =>
+      res.status(201)
+        .json({
+          book: book.toJSON({ virtuals: true, user: req.user }),
+        }))
+    .catch(next);
+};
+
 const update = (req, res, next) => {
   delete req.body._owner;  // disallow owner reassignment LOL
   req.book.update(req.body.book)
@@ -38,6 +51,7 @@ const destroy = (req, res, next) => {
 module.exports = controller({
   index,
   show,
+  create,
   update,
   destroy,
 }, { before: [
