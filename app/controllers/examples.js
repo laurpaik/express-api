@@ -52,11 +52,15 @@ const show = (req, res) => {
 };
 
 const create = (req, res, next) => {
+  // takes an object, add the properties to the example
+  // takes the body of the request and assigns currentUser as the owner
   let example = Object.assign(req.body.example, {
     _owner: req.user._id,
   });
+  // mongoose creates an example from the above object
   Example.create(example)
     .then(example =>
+      // send 201 AND json
       res.status(201)
         .json({
           example: example.toJSON({ virtuals: true, user: req.user }),
