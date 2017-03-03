@@ -8,12 +8,32 @@ const authenticate = require('./concerns/authenticate');
 const setUser = require('./concerns/set-current-user');
 const setModel = require('./concerns/set-mongoose-model');
 
+// index is a function that takes three parameters
+// request, response, and next (req, res, next)
+// request is an object that represents the client's HTTP request
+// response is an object that represents the server's HTTP response to the
+// next will call our error handler
+// the index action goes and gets all of our resources and
+// sends that data to the user
 const index = (req, res, next) => {
+
+  // using the mongoose model... mongoose query to get all the examples
   Example.find()
+
+    // get the examples, and when you find them, send a response in JSON
     .then(examples => res.json({
+
+      // response object will be an array of objects
+      // look through the array of examples that mongoose gives us
       examples: examples.map((e) =>
+
+        // .toJSON is a mongoose method that converts the object to JSON
+        // return only the examples that the current user owns
         e.toJSON({ virtuals: true, user: req.user })),
     }))
+
+    // if there's an error anywhere in this chain, call the next function
+    // to send an error response
     .catch(next);
 };
 
